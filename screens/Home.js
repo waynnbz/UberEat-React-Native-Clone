@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
 import { Divider } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
-import BottomTabs from "../components/BottomTabs";
-import Categories from "../components/Categories";
-import HeaderTabs from "../components/HeaderTabs";
+import BottomTabs from "../components/home/BottomTabs";
+import Categories from "../components/home/Categories";
+import HeaderTabs from "../components/home/HeaderTabs";
+import SearchBar from "../components/home/SearchBar";
 import RestaurantItems, {
   localRestaurants,
-} from "../components/RestaurantItems";
-import SearchBar from "../components/SearchBar";
+} from "../components/home/RestaurantItems";
 
-const YELP_API_KEY =
-  "mgaIs-4vgYpeKNL2Z201gvfdrJpIzwbvBg1g7m2KxqACEvlajTWfhiqK30No6UvTrYtz2Tkr1zXhq-fuovqKspAfdDi-BVTBYMuGy3zev4csmFlz_M2dGN0NGqIDYnYx";
+import { YELP_API_KEY } from "../assets/keys/Keys";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Delivery");
