@@ -1,13 +1,56 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
-export default function SearchBar() {
+export default function SearchBar({ cityHandler }) {
+  const [input, setInput] = useState("");
+
   return (
-    <View style={{ marginTop: 15, flexDirection: "row" }}>
-      <GooglePlacesAutocomplete
+    <View
+      style={{
+        marginTop: 15,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        alignContent: "center",
+        backgroundColor: "#eee",
+        padding: 7,
+        borderRadius: 50,
+      }}
+    >
+      <View style={{ marginRight: 5 }}>
+        <Ionicons name="location-sharp" size={24}></Ionicons>
+      </View>
+      <TextInput
+        placeholder="Search"
+        onChangeText={(text) => setInput(text)}
+        style={{
+          backgroundColor: "#eee",
+          borderRadius: 30,
+          fontWeight: "700",
+          width: 250,
+        }}
+      />
+      <TouchableOpacity
+        onPress={() => cityHandler(input)}
+        style={{
+          flexDirection: "row",
+          backgroundColor: "white",
+          padding: 9,
+          borderRadius: 30,
+          alignItems: "center",
+        }}
+      >
+        <AntDesign name="clockcircle" size={11} style={{ marginRight: 6 }} />
+        <Text>Search</Text>
+      </TouchableOpacity>
+      {/* <GooglePlacesAutocomplete
+        query={{ key: "AIzaSyA4fw1tNmCN_y0JN3eVMF-ofVefDH7Pu3w" }}
+        onPress={(data, details = null) => {
+          console.log(data.description);
+        }}
         placeholder="Search"
         styles={{
           textInput: {
@@ -48,7 +91,7 @@ export default function SearchBar() {
             <Text>Search</Text>
           </View>
         )}
-      />
+      /> */}
     </View>
   );
 }
