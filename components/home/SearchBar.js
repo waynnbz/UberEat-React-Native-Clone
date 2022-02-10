@@ -47,7 +47,7 @@ export default function SearchBar({ cityHandler }) {
         <Text>Search</Text>
       </TouchableOpacity>
       {/* <GooglePlacesAutocomplete
-        query={{ key: "AIzaSyA4fw1tNmCN_y0JN3eVMF-ofVefDH7Pu3w" }}
+        query={{ key: "" }}
         onPress={(data, details = null) => {
           console.log(data.description);
         }}
