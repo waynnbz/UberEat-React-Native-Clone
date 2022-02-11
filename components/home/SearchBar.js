@@ -25,7 +25,7 @@ export default function SearchBar({ cityHandler }) {
       </View>
       <TextInput
         placeholder="Search"
-        onChangeText={(text) => setInput(text)}
+        onChangeText={setInput}
         style={{
           backgroundColor: "#eee",
           borderRadius: 30,
@@ -46,7 +46,11 @@ export default function SearchBar({ cityHandler }) {
         <AntDesign name="clockcircle" size={11} style={{ marginRight: 6 }} />
         <Text>Search</Text>
       </TouchableOpacity>
-      {/* <GooglePlacesAutocomplete
+    </View>
+  );
+}
+{
+  /* <GooglePlacesAutocomplete
         query={{ key: "" }}
         onPress={(data, details = null) => {
           console.log(data.description);
@@ -91,7 +95,5 @@ export default function SearchBar({ cityHandler }) {
             <Text>Search</Text>
           </View>
         )}
-      /> */}
-    </View>
-  );
+      /> */
 }
