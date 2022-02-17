@@ -12,7 +12,7 @@ import RestaurantItems, {
 
 import { YELP_API_KEY } from "../assets/keys/Keys";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [activeTab, setActiveTab] = useState("Delivery");
   const [restaurantData, setRestaurantData] = useState(localRestaurants);
   const [city, setCity] = useState("SantaMonica");
@@ -26,6 +26,18 @@ export default function Home() {
       },
     };
 
+    // try {
+    //   let res = await fetch(yelpUrl, apiOptions);
+    //   let json = await res.json();
+    //   setRestaurantData(
+    //     json.businesses.filter((business) =>
+    //       business.transactions.includes(activeTab.toLowerCase())
+    //     )
+    //   );
+    // } catch (e) {
+    //   setRestaurantData(localRestaurants);
+    // }
+
     return fetch(yelpUrl, apiOptions)
       .then((res) => res.json())
       .then((json) =>
@@ -34,7 +46,8 @@ export default function Home() {
             business.transactions.includes(activeTab.toLowerCase())
           )
         )
-      );
+      )
+      .catch(setRestaurantData(localRestaurants));
   };
 
   useEffect(() => {
@@ -49,7 +62,10 @@ export default function Home() {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Categories />
-        <RestaurantItems restaurantData={restaurantData} />
+        <RestaurantItems
+          restaurantData={restaurantData}
+          navigation={navigation}
+        />
       </ScrollView>
       <Divider width={1} />
       <BottomTabs />
