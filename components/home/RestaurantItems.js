@@ -42,7 +42,12 @@ export default function RestaurantItems({ restaurantData, navigation }) {
           // style={{ marginBottom: 30 }}
           onPress={() =>
             navigation.push("RestaurantDetail", {
-              restaurantData: { restaurantData },
+              name: restaurant.name,
+              image: restaurant.image_url,
+              price: restaurant.price,
+              reviews: restaurant.review_count,
+              rating: restaurant.rating,
+              categories: restaurant.categories,
             })
           }
         >
