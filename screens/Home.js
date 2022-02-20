@@ -47,7 +47,10 @@ export default function Home({ navigation }) {
           )
         )
       )
-      .catch(setRestaurantData(localRestaurants));
+      .catch((e) => {
+        console.log(e);
+        setRestaurantData(localRestaurants);
+      });
   };
 
   useEffect(() => {

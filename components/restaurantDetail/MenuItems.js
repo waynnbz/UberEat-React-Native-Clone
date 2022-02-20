@@ -1,6 +1,16 @@
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import React from "react";
 import { Divider } from "react-native-elements";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
 
 const foods = [
   {
@@ -42,24 +52,47 @@ const foods = [
   },
 ];
 
-const style = StyleSheet.create({
-  menuItemStyle: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    margin: 20,
-  },
-  titleStyle: {
-    fontSize: 19,
-    fontWeight: "700",
-  },
-});
+export default function MenuItems({ restaurantName }) {
+  const dispatch = useDispatch();
+  const selectItem = (item, checkboxValue) => {
+    checkboxValue
+      ? dispatch({
+          type: "ADD_TO_CART",
+          payload: { ...item, restaurantName: restaurantName },
+        })
+      : dispatch({
+          type: "REMOVE_FROM_CART",
+          payload: { ...item, restaurantName: restaurantName },
+        });
+  };
 
-export default function MenuItems() {
+  // const isSelected = createSelector(
+  //   (state) => state.cartReducer.selectedItems.items
+  //   (items) => items.some(item => item.title === title )
+  // );
+  // unable to pass in props for evaluation here in createSelector
+
+  const cartItems = useSelector(
+    (state) => state.cartReducer.selectedItems.items
+  );
+  const isFoodInCart = (title, items) =>
+    items.some((item) => item.title === title);
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {foods.map((food, index) => (
-        <View key={index}>
+    <FlatList
+      data={foods}
+      renderItem={({ item: food }) => (
+        <View>
           <View style={style.menuItemStyle}>
+            <BouncyCheckbox
+              iconStyle={{
+                borderColor: "lightgray",
+                borderRadius: 0,
+              }}
+              fillColor="green"
+              isChecked={isFoodInCart(food.title, cartItems)}
+              onPress={(checkboxValue) => selectItem(food, checkboxValue)}
+            />
             <FoodInfo food={food} />
             <FoodImage food={food} />
           </View>
@@ -69,8 +102,9 @@ export default function MenuItems() {
             style={{ marginHorizontal: 20 }}
           />
         </View>
-      ))}
-    </ScrollView>
+      )}
+      keyExtractor={(item, index) => index.toString()}
+    />
   );
 }
 
@@ -91,3 +125,15 @@ const FoodImage = ({ food }) => (
     />
   </View>
 );
+
+const style = StyleSheet.create({
+  menuItemStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 20,
+  },
+  titleStyle: {
+    fontSize: 19,
+    fontWeight: "700",
+  },
+});
