@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import OrderItem from "./OrderItem";
+import firebase from "../../firebase";
 
 export default function ViewCart({ restaurantName }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,9 +27,15 @@ export default function ViewCart({ restaurantName }) {
   //   currency: "USD",
   // });
 
-  // const addOrderToFirebase = () => {
-    
-  // }
+  const addOrderToFireBase = () => {
+    const db = firebase.firestore();
+    db.collection("orders").add({
+      items: items,
+      restaurantName: restaurantName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setModalVisible(false);
+  };
 
   const checkoutModalContent = (items, restaurantName) => {
     return (
@@ -45,7 +52,9 @@ export default function ViewCart({ restaurantName }) {
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
             <TouchableOpacity
               style={styles.modalCheckoutButton}
-              onPress={setModalVisible}
+              onPress={() => {
+                addOrderToFireBase();
+              }}
             >
               <Text style={{ color: "#fff", fontSize: 20 }}>Checkout</Text>
               <Text
@@ -122,7 +131,6 @@ export default function ViewCart({ restaurantName }) {
     </>
   );
 }
-
 
 const styles = StyleSheet.create({
   modalContainer: {
